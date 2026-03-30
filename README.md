@@ -38,65 +38,56 @@ Program to implement the multiple linear regression model for predicting car pri
 Developed by: YOGAMAHENDRAN G
 RegisterNumber: 212225040500
 */
-Importing necessary libraries
+/*
+Program to implement the multiple linear regression model for predicting car prices with cross-validation.
+Developed by: V MUKESHKUMAR
+RegisterNumber:25012063
 import pandas as pd
-import numpy as np
-import statsmodels.api as sm
-from sklearn.model_selection import train_test_split, cross_val_score
 from sklearn.linear_model import LinearRegression
+from sklearn.model_selection import train_test_split,cross_val_score
+from sklearn.metrics import mean_squared_error,r2_score,mean_absolute_error
 import matplotlib.pyplot as plt
-
-Load the dataset
-data = pd.read_csv("https://cf-courses-data.s3.us.cloud-object-storage.appdomain.cloud/IBM-ML240EN-SkillsNetwork/labs/data/CarPrice_Assignment.csv")
-
-Data preprocessing
-Dropping unnecessary columns and handling categorical variables
-data = data.drop(['CarName', 'car_ID'], axis=1)
-data = pd.get_dummies(data, drop_first=True)
-
-Splitting the data into features and target variable
-X = data.drop('price', axis=1)
-y = data['price']
-
-Splitting the dataset into training and testing sets
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
-
-Creating the model
-model = LinearRegression()
-
-Fitting the model on the training data
-model.fit(X_train, y_train)
-
-Evaluating model performance using cross-validation
-cv_scores = cross_val_score(model, X, y, cv=5)
- Printing cross-validation scores
-print("Cross-validation scores:", cv_scores)
-print("Mean cross-validation score:", cv_scores.mean())
-
-Print model coefficients
-print("Intercept:", model.intercept_)
-print("Coefficients:", model.coef_)
-
-Make predictions
-predictions = model.predict(X_test)
-
-Visualizing actual vs predicted prices
-plt.scatter(y_test, predictions)
-plt.xlabel("Actual Prices")
-plt.ylabel("Predicted Prices")
+data= pd.read_csv('CarPrice_Assignment.csv')
+print(data.head())
+data = data.drop(['car_ID', 'CarName'], axis=1)
+data = pd.get_dummies(data,drop_first=True)
+print(data.head())
+X=data.drop('price',axis=1)
+y=data['price']
+X_train,X_test,y_train,y_test=train_test_split(X,y,test_size=0.2, random_state=42)
+model=LinearRegression()
+model.fit(X_train,y_train)
+print('Name: V MUKESHKUMAR')
+print('Reg. No: 25012063 ')
+print("\n=== Cross-Validation ===")
+cv_scores=cross_val_score(model, X, y, cv=5)
+print("Fold R² scores:", {f"{score:.4f}" for score in cv_scores})
+print(f"Average R²: {cv_scores.mean():.4f}")
+y_pred=model.predict(X_test)
+print("\n=== Test Set Performance ===")
+print(f"MSE: {mean_squared_error(y_test, y_pred):.2f}")
+print(f"MAE: {mean_absolute_error(y_test, y_pred):.2f}")
+print(f"R²: {r2_score(y_test,y_pred):.4f}")
+plt.figure(figsize=(8,6))
+plt.scatter(y_test, y_pred, alpha=0.6)
+plt.plot([y.min(),y.max()],[y.min(),y.max()],'r--')
+plt.xlabel("Actual Price")
+plt.ylabel("Predicted Price")
 plt.title("Actual vs Predicted Prices")
-plt.plot([min(y_test), max(y_test)], [min(y_test), max(y_test)], color='red')  # Perfect prediction line
+plt.grid(True)
 plt.show()
+
+*/
+
 /*
 
 */
 ```
 
 ## Output:
-<img width="775" height="263" alt="439092084-7a872c64-607e-4576-b429-8a438730cc8c" src="https://github.com/user-attachments/assets/996a50d7-f59b-48e8-b30b-799c7c8827c7" />
+<img width="1256" height="327" alt="553306151-296d16d6-2e7c-426d-8cfd-2160a8aa50f8" src="https://github.com/user-attachments/assets/62a0d677-ad71-4e5e-b57a-6df97a886e8a" />
 
-<img width="765" height="561" alt="439092085-b6db3fa9-8a23-4645-883d-a1d3aca4ef21" src="https://github.com/user-attachments/assets/36e36a4a-c2cb-4461-9d1b-1e06d5563802" />
-
+<img width="1063" height="683" alt="553306317-01c39ed0-e701-4d3a-8c74-5702c5c7934a" src="https://github.com/user-attachments/assets/70c9fb52-07a1-4241-9256-365a952fa5c1" />
 
 
 ## Result:
